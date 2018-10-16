@@ -55,3 +55,10 @@ jar {
     archiveName = "app.jar"
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
+
+build.doLast {
+    copy {
+        from 'build/libs/app.jar'
+        into "docker"
+    }
+}
