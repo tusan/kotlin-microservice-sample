@@ -1,32 +1,29 @@
 import io.ktor.application.Application
-import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
-import io.ktor.response.respondText
-import io.ktor.routing.get
-import io.ktor.routing.routing
+import io.ktor.routing.Routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-
-private val itemRepository = ItemRepository()
+import org.koin.ktor.ext.inject
+import org.koin.standalone.StandAloneContext.startKoin
 
 fun main(args: Array<String>) {
+    startKoin(listOf(applicationContext))
     embeddedServer(Netty, 8080, module = Application::main).start(wait = true)
 }
 
 fun Application.main() {
+    val itemRepository: ItemRepository by inject()
 
-    routing {
-        install(ContentNegotiation) {
-            gson {
-                setPrettyPrinting()
-            }
+    install(ContentNegotiation) {
+        gson {
+            setPrettyPrinting()
         }
-        get("/") {
-            call.respondText { "Hello from my first ktor service :)" }
-        }
+    }
 
-        itemRouting(itemRepository)
+    install(Routing) {
+        itemsApi(itemRepository)
     }
 }
+

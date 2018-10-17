@@ -1,5 +1,7 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.2.71'
+    id "net.ltgt.apt" version "0.10"
+
 }
 
 apply plugin: 'kotlin'
@@ -8,7 +10,10 @@ apply plugin: 'application'
 group 'com.tubelli'
 version '1.0-SNAPSHOT'
 
-ext.ktor_version = '0.9.5'
+ext {
+    ktor_version = '0.9.5'
+    koin_version = '0.9.3'
+}
 
 repositories {
     mavenCentral()
@@ -21,6 +26,12 @@ dependencies {
     compile "io.ktor:ktor-server-core:$ktor_version"
     compile "io.ktor:ktor-server-netty:$ktor_version"
     compile "io.ktor:ktor-gson:$ktor_version"
+
+    compile "com.google.dagger:dagger:2.17"
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.17'
+
+    compile "org.koin:koin-ktor:$koin_version"
+    compile "org.koin:koin-core:$koin_version"
 
     compile("ch.qos.logback:logback-classic:1.2.3")
 }
