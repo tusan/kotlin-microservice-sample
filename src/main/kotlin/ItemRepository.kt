@@ -1,7 +1,8 @@
 import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.atomic.AtomicInteger
-import org.koin.standalone.inject
+
 class ItemRepository : KoinComponent {
     private val idCounter: AtomicInteger by inject()
     private val items: CopyOnWriteArrayList<Item> by inject()
